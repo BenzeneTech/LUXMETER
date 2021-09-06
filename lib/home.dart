@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:light/light.dart';
-// import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class Home extends StatefulWidget {
@@ -54,54 +53,49 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black87,
-      // appBar: new AppBar(
-      //   title: const Text('Light Example App'),
-      // ),
-      body: new Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: SfRadialGauge(axes: <RadialAxis>[
-                RadialAxis(
-                    radiusFactor: 1,
-                    maximum: 500,
-                    annotations: <GaugeAnnotation>[
-                      GaugeAnnotation(
-                          widget: Container(
-                              child: Text('$_luxString',
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold))),
-                          angle: 90,
-                          positionFactor: 0.4)
-                    ],
-                    pointers: <GaugePointer>[
-                      RangePointer(
-                        gradient: const SweepGradient(
-                          colors: <Color>[Colors.yellow, Colors.amber],
-                          stops: <double>[0.25, 0.75],
-                        ),
-                        value: double.parse(_luxString),
+      backgroundColor: Color(0xff080117),
+      body: Container(
+        child: new Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: SfRadialGauge(axes: <RadialAxis>[
+                  RadialAxis(
+                      radiusFactor: 0.9,
+                      maximum: 500,
+                      annotations: <GaugeAnnotation>[
+                        GaugeAnnotation(
+                            widget: Container(
+                                child: Text('$_luxString',
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold))),
+                            angle: 90,
+                            positionFactor: 0.4)
+                      ],
+                      pointers: <GaugePointer>[
+                        RangePointer(
+                          gradient: const SweepGradient(
+                            colors: <Color>[Colors.yellow, Colors.amber],
+                            stops: <double>[0.25, 0.75],
+                          ),
+                          value: double.parse(_luxString),
+                          cornerStyle: CornerStyle.bothCurve,
+                          width: 24,
+                        )
+                      ],
+                      startAngle: 270,
+                      endAngle: 270,
+                      axisLineStyle: AxisLineStyle(
                         cornerStyle: CornerStyle.bothCurve,
-                        width: 24,
-                      )
-                    ],
-                    startAngle: 270,
-                    endAngle: 270,
-                    axisLineStyle: AxisLineStyle(
-                      cornerStyle: CornerStyle.bothCurve,
-                      thickness: 24,
-                      thicknessUnit: GaugeSizeUnit.logicalPixel,
-                    )),
-              ]),
-            ),
-            // Text(
-            //   '$_luxString',
-            //   style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-            // )
-          ],
+                        thickness: 24,
+                        thicknessUnit: GaugeSizeUnit.logicalPixel,
+                      )),
+                ]),
+              ),
+            ],
+          ),
         ),
       ),
     );
