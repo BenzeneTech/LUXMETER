@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterlux/home.dart';
+import 'package:flutterlux/models/provider.dart';
 import 'dart:async';
 import 'package:light/light.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(new MyApp());
 
@@ -10,18 +12,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // MultiProvider(
-        //   providers: [
-        //     ChangeNotifierProvider(
-        //       create: (context) => MagnitudeProvider(),
-        //     ),
-        //   ],
-        //   child:
-        MaterialApp(
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => DataProvider(),
+          ),
+        ],
+        child: MaterialApp(
             theme: ThemeData(fontFamily: 'DMSans', brightness: Brightness.dark),
             debugShowCheckedModeBanner: false,
-            home: Home());
+            home: Home()));
     // );
   }
 }

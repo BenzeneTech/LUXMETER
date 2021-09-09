@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutterlux/models/provider.dart';
+import 'package:flutterlux/utils/colors.dart';
 import 'package:light/light.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class Home extends StatefulWidget {
@@ -12,99 +15,95 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String _luxString = '20';
-  late Light _light;
-  late StreamSubscription _subscription;
-  var chartData = [
-    _ChartData('Akshit', 90000, Colors.red),
-  ];
-
-  void onData(int luxValue) async {
-    print("Lux value: $luxValue");
-    setState(() {
-      _luxString = "$luxValue";
-    });
-  }
-
-  void stopListening() {
-    _subscription.cancel();
-  }
-
-  void startListening() {
-    _light = new Light();
-    try {
-      _subscription = _light.lightSensorStream.listen(onData);
-    } on LightException catch (exception) {
-      print(exception);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    // initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    startListening();
-  }
+  // // Platform messages are asynchronous, so we initialize in an async method.
+  // Future<void> initPlatformState() async {
+  //   startListening();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff080117),
+      backgroundColor: AppColors.bgColor,
       body: Container(
         child: new Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                child: SfRadialGauge(axes: <RadialAxis>[
-                  RadialAxis(
-                      radiusFactor: 0.9,
-                      maximum: 500,
-                      annotations: <GaugeAnnotation>[
-                        GaugeAnnotation(
-                            widget: Container(
-                                child: Text('$_luxString',
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold))),
-                            angle: 90,
-                            positionFactor: 0.4)
-                      ],
-                      pointers: <GaugePointer>[
-                        RangePointer(
-                          gradient: const SweepGradient(
-                            colors: <Color>[Colors.yellow, Colors.amber],
-                            stops: <double>[0.25, 0.75],
-                          ),
-                          value: double.parse(_luxString),
+          child: Consumer<DataProvider>(
+            builder: (context, model, child) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: SfRadialGauge(axes: <RadialAxis>[
+                    RadialAxis(
+                        radiusFactor: 0.9,
+                        maximum: 500,
+                        annotations: <GaugeAnnotation>[
+                          GaugeAnnotation(
+                              widget: Container(
+                                  child: Text(model.lux.toString(),
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold))),
+                              angle: 90,
+                              positionFactor: 0.4)
+                        ],
+                        pointers: <GaugePointer>[
+                          RangePointer(
+                            gradient: const SweepGradient(
+                              colors: <Color>[Colors.yellow, Colors.amber],
+                              stops: <double>[0.25, 0.75],
+                            ),
+                            value: double.parse(model.lux.toString()),
+                            cornerStyle: CornerStyle.bothCurve,
+                            width: 24,
+                          )
+                        ],
+                        startAngle: 270,
+                        endAngle: 270,
+                        axisLineStyle: AxisLineStyle(
                           cornerStyle: CornerStyle.bothCurve,
-                          width: 24,
-                        )
-                      ],
-                      startAngle: 270,
-                      endAngle: 270,
-                      axisLineStyle: AxisLineStyle(
-                        cornerStyle: CornerStyle.bothCurve,
-                        thickness: 24,
-                        thicknessUnit: GaugeSizeUnit.logicalPixel,
+                          thickness: 24,
+                          thicknessUnit: GaugeSizeUnit.logicalPixel,
+                        )),
+                  ]),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: 200,
+                  height: 50,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                  side: BorderSide(color: Colors.white))),
+                          backgroundColor: MaterialStateProperty.all(
+                              model.start ? Colors.white : Colors.transparent)),
+                      onPressed: () {
+                        model.start
+                            ? model.stopListening()
+                            : model.startListening();
+                      },
+                      child: Text(
+                        model.start ? 'Stop' : 'Start',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                model.start ? AppColors.bgColor : Colors.white),
                       )),
-                ]),
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
-
-class _ChartData {
-  _ChartData(this.x, this.y, this.color);
-  final String x;
-  final num y;
-  final Color color;
 }

@@ -6,4 +6,5 @@ class AppColors {
   static Color green = Colors.green;
   static Color orange = Colors.orange;
   static Color deepPurple = Colors.deepPurple;
+  static Color bgColor = Color(0xff080117);
 }
