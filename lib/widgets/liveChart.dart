@@ -37,12 +37,12 @@ class _LiveChartWidgetState extends State<LiveChartWidget> {
                         yValueMapper: (ChartData data, _) => data.lux,
                       )
                     ],
-                    primaryXAxis: NumericAxis(
-                        // isVisible: false,
-                        majorGridLines: const MajorGridLines(width: 0),
-                        edgeLabelPlacement: EdgeLabelPlacement.shift,
-                        interval: 10,
-                        title: AxisTitle(text: 'Time (seconds)')),
+                    // primaryXAxis: NumericAxis(
+                    //     // isVisible: false,
+                    //     majorGridLines: const MajorGridLines(width: 0),
+                    //     edgeLabelPlacement: EdgeLabelPlacement.shift,
+                    //     interval: 10,
+                    //     title: AxisTitle(text: 'Time (seconds)')),
                     primaryYAxis: NumericAxis(
                         axisLine: const AxisLine(width: 0),
                         majorTickLines: const MajorTickLines(size: 0),

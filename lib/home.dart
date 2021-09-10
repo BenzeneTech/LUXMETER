@@ -22,17 +22,16 @@ class _HomeState extends State<Home> {
     // initPlatformState();
   }
 
-  // // Platform messages are asynchronous, so we initialize in an async method.
-  // Future<void> initPlatformState() async {
-  //   startListening();
-  // }
-
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
-    var w = MediaQuery.of(context).size.width;
+    // var w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: AppColors.bgColor,
+        title: Text('Luxmeter'),
+      ),
       backgroundColor: AppColors.bgColor,
       body: Center(
         child: Consumer<DataProvider>(
@@ -42,6 +41,7 @@ class _HomeState extends State<Home> {
               Container(
                 child: SfRadialGauge(axes: <RadialAxis>[
                   RadialAxis(
+                      showFirstLabel: false,
                       radiusFactor: h / 1000,
                       maximum: 1000,
                       annotations: <GaugeAnnotation>[
@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold))),
                             angle: 90,
-                            positionFactor: 0.4)
+                            positionFactor: 0.3)
                       ],
                       pointers: <GaugePointer>[
                         RangePointer(
@@ -61,14 +61,14 @@ class _HomeState extends State<Home> {
                             stops: <double>[0.25, 0.75],
                           ),
                           value: double.parse(model.lux.toString()),
-                          cornerStyle: CornerStyle.bothCurve,
+                          // cornerStyle: CornerStyle.bothCurve,
                           width: 24,
                         )
                       ],
                       startAngle: 270,
                       endAngle: 270,
                       axisLineStyle: AxisLineStyle(
-                        cornerStyle: CornerStyle.bothCurve,
+                        // cornerStyle: CornerStyle.bothCurve,
                         thickness: 24,
                         thicknessUnit: GaugeSizeUnit.logicalPixel,
                       )),
